@@ -1,1 +1,1 @@
-# SQL-project
+Pizza sales analysis
