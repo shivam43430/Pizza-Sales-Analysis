@@ -1,3 +1,39 @@
+-- Retrieve the total number of orders placed.
+
+SELECT COUNT(order_id) AS total_orders FROM orders;
+
+-- Calculate the total revenue generated from pizza sales.
+
+SELECT SUM(order_details.quantity * pizzas.price) AS total_revenue
+  FROM order_details INNER JOIN pizzas ON
+  order_details.pizza_id = pizzas.pizza_id;
+
+-- Identify the highest-priced pizza.
+
+SELECT pizza_types.name, pizzas.price
+  FROM pizza_types INNER JOIN pizzas
+  ON pizza_types.pizza_type_id = pizzas.pizza_type_id
+  ORDER BY pizzas.price DESC
+  LIMIT 1;
+
+-- Identify the most common pizza size ordered.
+
+SELECT pizzas.size, COUNT(*)  AS OCCURENCE
+  FROM pizzas INNER JOIN order_details ON
+  order_details.pizza_id = pizzas.pizza_id
+  GROUP BY pizzas.size
+  ORDER BY OCCURENCE DESC
+  LIMIT 1;
+
+-- List the top 5 most ordered pizza types along with their quantities.
+
+SELECT  pizzas.pizza_type_id, SUM(order_details*quantity) AS total_num
+  FROM order_details INNER JOIN pizzas
+  ON order_details.pizza_id = pizzas.pizza_id
+  GROUP BY pizzas.pizza_type_id
+ORDER BY total_num DESC
+  LIMIT 5;
+
 -- Join the necessary tables to find the total quantity of each pizza category ordered.
 
 select pt.category, sum(od.quantity) as total_quant
