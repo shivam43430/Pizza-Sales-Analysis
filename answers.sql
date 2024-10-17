@@ -64,7 +64,7 @@ from orders O join order_details od on
 O.order_id=od.order_id
 group by O.order_date) as X;
 
--- Determine the top 3 most ordered pizza types based on revenue.
+-- Determine the top 3 pizza types based on revenue.
 
 select pt.name, sum(od.quantity * pz.price) as revenue
 from ((pizza_types as pt join pizzas as pz on
