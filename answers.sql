@@ -72,3 +72,30 @@ pt.pizza_type_id = pz.pizza_type_id)
 join order_details as od on od.pizza_id = pz.pizza_id)
 group by pt.name order by revenue desc
 limit 3;
+
+-- Calculate the percentage contribution of revenue for each pizza category.
+
+WITH revenue as
+(SELECT sum(pz.price * od.quantity) as total
+from pizzas pz inner join order_details od
+ON pz.pizza_id = od.pizza_id)
+select pt.category, round((sum(pz.price * od.quantity)/(SELECT total
+from revenue) * 100),2) as percentage
+from pizzas pz inner join order_details od
+ON pz.pizza_id = od.pizza_id inner join pizza_types pt
+on pt.pizza_type_id = pz.pizza_type_id
+group by pt.category
+order by percentage DESC;
+
+-- Determine the top 3 pizza types based on revenue for each pizza category.
+
+select category, name from (with Xyz as
+(select pt.name, pt.category, sum(pz.price * od.quantity) as revenue
+from pizzas pz inner join order_details od
+ON pz.pizza_id = od.pizza_id inner join pizza_types pt
+on pt.pizza_type_id = pz.pizza_type_id
+group by pt.name,pt.category)
+select category, name, rank() 
+over(partition by category order by revenue desc) as rn
+from Xyz) as qwe where rn = 1 
+
