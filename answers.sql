@@ -27,7 +27,7 @@ SELECT pizzas.size, COUNT(*)  AS OCCURENCE
 
 -- List the top 5 most ordered pizza types along with their quantities.
 
-SELECT  pizzas.pizza_type_id, SUM(order_details*quantity) AS total_num
+SELECT  pizzas.pizza_type_id, SUM(order_details.quantity) AS total_num
   FROM order_details INNER JOIN pizzas
   ON order_details.pizza_id = pizzas.pizza_id
   GROUP BY pizzas.pizza_type_id
