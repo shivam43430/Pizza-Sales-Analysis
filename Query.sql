@@ -2,6 +2,10 @@
 
 SELECT COUNT(order_id) AS total_orders FROM orders;
 
+-- Retrieve the total number of quantities placed.
+
+SELECT SUM(quantity) AS total_quantity FROM order_details;
+
 -- Calculate the total revenue generated from pizza sales.
 
 SELECT SUM(order_details.quantity * pizzas.price) AS total_revenue
